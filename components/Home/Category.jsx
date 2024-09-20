@@ -5,7 +5,7 @@ import { collection, doc, getDocs } from 'firebase/firestore'
 import Colors from '../../constants/Colors'
 import { TouchableOpacity } from 'react-native'
 
-export default function Category() {
+export default function Category({ category }) {
 
     const [categoryList, setCategoryList] = useState([])
     const [selectedCategory, setSelectedCategory] = useState('Trucks')
@@ -32,10 +32,13 @@ export default function Category() {
 
             <FlatList
                 data={categoryList}
-                numColumns={2}
+                numColumns={3}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity
-                        onPress={() => setSelectedCategory(item.name)}
+                        onPress={() => {
+                            setSelectedCategory(item.name)
+                            category(item.name)
+                        }}
                         style={{
                             flex: 1
                         }}
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
     },
 
     selectedCategoryContainer: {
-        backgroundColor: Colors.SECONDARY,
-        borderColor: Colors.SECONDARY,
+        backgroundColor: '#e1cc35',
+        borderColor: '#e1cc35',
     }
 })
