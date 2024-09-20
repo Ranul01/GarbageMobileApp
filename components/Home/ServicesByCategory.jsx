@@ -5,13 +5,15 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../config/FirebaseConfig'
 import ListItem from './ListItem'
 
-export default function ServicesByCategory() {
+export default function ServicesByCategory({ selectedCategory }) {
 
     const [serviceList, setServiceList] = useState([])
 
     useEffect(() => {
-        getServiceList('Trucks')
-    }, [])
+        if (selectedCategory) {
+            getServiceList(selectedCategory)
+        }
+    }, [selectedCategory])
 
     const getServiceList = async (category) => {
 
@@ -20,21 +22,40 @@ export default function ServicesByCategory() {
         const q = query(collection(db, 'Services'), where('category', '==', category))
         const querySnapshot = await getDocs(q)
 
-        querySnapshot.forEach(doc => {
-            setServiceList(serviceList => [...serviceList, doc.data()])
+        // querySnapshot.forEach(doc => {
+        //     setServiceList(serviceList => [...serviceList, doc.data()])
+        // })
+
+        const newServiceList = []
+        querySnapshot.forEach((doc) => {
+            newServiceList.push(doc.data())
         })
+
+        setServiceList(newServiceList)
     }
     return (
         <View>
-            <Category category={(value) => getServiceList(value)} />
-            <FlatList
+            {/* <Category category={(value) => getServiceList(value)} /> */}
+            {/* <FlatList
                 data={serviceList}
                 style={{ marginTop: 10 }}
                 horizontal={true}
                 renderItem={({ item, index }) => (
                     <ListItem service={item} />
                 )}
-            />
+            /> */}
+
+            {serviceList.length > 0 ? (
+                <FlatList
+                    data={serviceList}
+                    style={{ marginTop: 10 }}
+                    horizontal={true}
+                    renderItem={({ item }) => <ListItem service={item} />}
+                />
+            ) : (
+                <Text>No service availabe</Text>
+            )}
+
         </View>
     )
 }
