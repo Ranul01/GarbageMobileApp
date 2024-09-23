@@ -7,6 +7,8 @@ import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../../config/FirebaseConfig'
 import { TouchableOpacity } from 'react-native'
 import Category from '../../components/Home/Category'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Colors from '../../constants/Colors'
 
 export default function Home() {
 
@@ -44,8 +46,25 @@ export default function Home() {
 
 
             {/* Add new Truck */}
-            <TouchableOpacity>
-                <Text>{renderButtonLabe()}</Text>
+            <TouchableOpacity style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 20,
+                gap: 20,
+                marginTop: 20,
+                backgroundColor: Colors.LIGHT_PRIMARY,
+                borderWidth: 1,
+                borderColor: Colors.LIGHT_PRIMARY,
+                borderRadius: 15,
+                borderStyle: 'dashed'
+            }}>
+                <Ionicons name="add-circle-sharp" size={24} color={Colors.PRIMARY} />
+                <Text style={{
+                    fontFamily: 'outfit',
+                    color: Colors.PRIMARY
+                }}>{renderButtonLabe()}</Text>
             </TouchableOpacity>
 
         </View>

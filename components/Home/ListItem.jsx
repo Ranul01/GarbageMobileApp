@@ -1,15 +1,24 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
 import Colors from '../../constants/Colors'
+import { useRouter } from 'expo-router'
+import { TouchableOpacity } from 'react-native'
 
 export default function ListItem({ service }) {
+
+    const router = useRouter()
     return (
-        <View style={{
-            padding: 10,
-            marginRight: 15,
-            backgroundColor: Colors.WHITE,
-            borderRadius: 10
-        }}>
+        <TouchableOpacity
+            onPress={() => router.push({
+                pathname: '/service-details',
+                params: service
+            })}
+            style={{
+                padding: 10,
+                marginRight: 15,
+                backgroundColor: Colors.WHITE,
+                borderRadius: 10
+            }}>
             <Image
                 source={{ uri: service?.imageUrl }}
                 style={{
@@ -45,6 +54,6 @@ export default function ListItem({ service }) {
                     backgroundColor: '#DC143C'
                 }}>{service?.curbWeight || service?.dates}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
