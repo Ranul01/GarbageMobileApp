@@ -1,5 +1,6 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
+import Colors from '../../constants/Colors'
 
 export default function ServiceInfo({ service }) {
     return (
@@ -12,6 +13,29 @@ export default function ServiceInfo({ service }) {
                     objectFit: 'cover'
                 }}
             />
+
+            <View style={{
+                padding: 20,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                <View>
+                    <Text style={{
+                        fontFamily: 'outfit-bold',
+                        fontSize: 27
+                    }}>
+                        {service?.make}
+                    </Text>
+
+                    <Text style={{
+                        fontFamily: 'outfit',
+                        fontSize: 16,
+                        color: Colors.GRAY
+                    }}>{service?.name}</Text>
+                </View>
+            </View>
         </View>
     )
 }
