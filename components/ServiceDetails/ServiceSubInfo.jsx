@@ -12,7 +12,7 @@ export default function ServiceSubInfo({ service }) {
                 flexDirection: 'row'
             }}>
                 <ServiceSubInfoCard
-                    icon={require('../../assets/images/passenger.png')}
+                    icon={service?.passengerImage}
                     title={'Passengers'}
                     value={service?.passengers}
                 />
