@@ -12,7 +12,7 @@ export default function AboutService({ service }) {
             <Text style={{
                 fontFamily: 'outfit-medium',
                 fontSize: 14
-            }}>About {service?.name}</Text>
+            }}>About {service?.name || service?.destination}</Text>
 
             <Text
                 numberOfLines={readMore ? 3 : 20}

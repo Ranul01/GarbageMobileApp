@@ -12,15 +12,15 @@ export default function ServiceSubInfo({ service }) {
                 flexDirection: 'row'
             }}>
                 <ServiceSubInfoCard
-                    icon={service?.passengerImage}
-                    title={'Passengers'}
-                    value={service?.passengers}
+                    icon={service?.passengerImage || service?.imageDate}
+                    title={service?.titlePassenger || service?.titleDate}
+                    value={service?.passengers || service?.valueDate}
                 />
 
                 <ServiceSubInfoCard
-                    icon={require('../../assets/images/weight.png')}
-                    title={('Weight')}
-                    value={service?.curbWeight}
+                    icon={service?.weightImage || service?.imagePhone}
+                    title={service?.titleWeight || service?.titlePhone}
+                    value={service?.curbWeight || service?.valuePhone}
                 />
             </View>
 
@@ -29,15 +29,15 @@ export default function ServiceSubInfo({ service }) {
                 flexDirection: 'row'
             }}>
                 <ServiceSubInfoCard
-                    icon={require('../../assets/images/fuel.png')}
-                    title={'Fuel Type'}
-                    value={service?.fuel}
+                    icon={service?.fuelImage || service?.imageWaste}
+                    title={service?.titleFuelType || service?.titleWasteType}
+                    value={service?.fuel || service?.valueWasteType}
                 />
 
                 <ServiceSubInfoCard
-                    icon={require('../../assets/images/piston.png')}
-                    title={'Power'}
-                    value={service?.power}
+                    icon={service?.powerImage || service?.imageWasteWeight}
+                    title={service?.titlePower || service?.titleWasteWeight}
+                    value={service?.power || service?.valueWeight}
                 />
             </View>
         </View>

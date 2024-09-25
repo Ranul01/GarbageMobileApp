@@ -26,14 +26,14 @@ export default function ServiceInfo({ service }) {
                         fontFamily: 'outfit-bold',
                         fontSize: 27
                     }}>
-                        {service?.make}
+                        {service?.make || service?.customerName}
                     </Text>
 
                     <Text style={{
                         fontFamily: 'outfit',
                         fontSize: 16,
                         color: Colors.GRAY
-                    }}>{service?.name}</Text>
+                    }}>{service?.name || service?.address}</Text>
                 </View>
             </View>
         </View>
