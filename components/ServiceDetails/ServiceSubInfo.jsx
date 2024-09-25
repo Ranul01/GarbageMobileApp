@@ -13,14 +13,14 @@ export default function ServiceSubInfo({ service }) {
             }}>
                 <ServiceSubInfoCard
                     icon={service?.passengerImage || service?.imageDate}
-                    title={service?.titlePassenger || service?.titleDate}
-                    value={service?.passengers || service?.valueDate}
+                    title={service?.titlePassenger || service?.titleDate || service?.titleServiceDays}
+                    value={service?.passengers || service?.valueDate || service?.dates}
                 />
 
                 <ServiceSubInfoCard
-                    icon={service?.weightImage || service?.imagePhone}
-                    title={service?.titleWeight || service?.titlePhone}
-                    value={service?.curbWeight || service?.valuePhone}
+                    icon={service?.weightImage || service?.imagePhone || service?.imageVehicle}
+                    title={service?.titleWeight || service?.titlePhone || service?.titleVehicleNo}
+                    value={service?.curbWeight || service?.valuePhone || service?.valueVehicleNo}
                 />
             </View>
 
@@ -29,15 +29,15 @@ export default function ServiceSubInfo({ service }) {
                 flexDirection: 'row'
             }}>
                 <ServiceSubInfoCard
-                    icon={service?.fuelImage || service?.imageWaste}
-                    title={service?.titleFuelType || service?.titleWasteType}
-                    value={service?.fuel || service?.valueWasteType}
+                    icon={service?.fuelImage || service?.imageWaste || service?.imageDriver}
+                    title={service?.titleFuelType || service?.titleWasteType || service?.titleDriver}
+                    value={service?.fuel || service?.valueWasteType || service?.valueDriver}
                 />
 
                 <ServiceSubInfoCard
-                    icon={service?.powerImage || service?.imageWasteWeight}
-                    title={service?.titlePower || service?.titleWasteWeight}
-                    value={service?.power || service?.valueWeight}
+                    icon={service?.powerImage || service?.imageWasteWeight || service?.imageContact}
+                    title={service?.titlePower || service?.titleWasteWeight || service?.titleContact}
+                    value={service?.power || service?.valueWeight || service?.valueContact}
                 />
             </View>
         </View>
