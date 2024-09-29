@@ -9,10 +9,23 @@ import { TouchableOpacity } from 'react-native'
 import Category from '../../components/Home/Category'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Colors from '../../constants/Colors'
+import { useRouter } from 'expo-router'
 
 export default function Home() {
 
     const [selectedCategory, setSelectedCategory] = useState('Trucks')
+
+    const router = useRouter()
+
+    const handleButtonPress = () => {
+        if (selectedCategory === 'Trucks') {
+            router.push('/forms/AddTruck')
+        } else if (selectedCategory === 'Routes') {
+            router.push('/forms/AddRoute')
+        } else if (selectedCategory === 'Tasks') {
+            router.push('/forms/AddTask')
+        }
+    }
 
     const renderButtonLabe = () => {
         if (selectedCategory === 'Trucks') {
@@ -59,7 +72,9 @@ export default function Home() {
                 borderColor: Colors.LIGHT_PRIMARY,
                 borderRadius: 15,
                 borderStyle: 'dashed'
-            }}>
+            }}
+                onPress={handleButtonPress}
+            >
                 <Ionicons name="add-circle-sharp" size={24} color={Colors.PRIMARY} />
                 <Text style={{
                     fontFamily: 'outfit',
