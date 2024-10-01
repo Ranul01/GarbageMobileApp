@@ -1,10 +1,183 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, ScrollView, Image, TextInput } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useNavigation } from 'expo-router'
+import Colors from '../../constants/Colors'
+import { Picker } from '@react-native-picker/picker'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../../config/FirebaseConfig'
+import { TouchableOpacity } from 'react-native'
 
 export default function AddTruck() {
+
+    const navigation = useNavigation()
+
+    const [categoryList, setCategoryList] = useState([])
+
+    const [formdata, setFormData] = useState({
+        category: 'Trucks',
+    })
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: 'Add New Truck'
+        })
+        getCategories()
+    }, [])
+
+    //Handling the form inputs
+    const handleInputChange = (fieldName, fieldValue) => {
+        setFormData(prev => ({
+            ...prev,
+            [fieldName]: fieldValue
+        }))
+    }
+
+    //Getting the categories from the database
+    const getCategories = async () => {
+        setCategoryList([])
+        const snapshot = await getDocs(collection(db, 'GarbageCategory'))
+        snapshot.forEach((doc) => {
+            setCategoryList(categoryList => [...categoryList, doc.data()])
+        })
+    }
+
     return (
-        <View>
-            <Text>AddTruck</Text>
-        </View>
+        <ScrollView style={{
+            padding: 20
+        }}>
+            <Text style={{
+                fontFamily: 'outfit-medium',
+                fontSize: 20
+            }}>Add New Truck</Text>
+
+            <View>
+                <Image
+                    source={require('../../assets/images/truck.png')}
+                    style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 15,
+                        borderWidth: 1,
+                        borderColor: Colors.GRAY,
+                        backgroundColor: Colors.GRAY
+                    }}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Truck Name *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('name', value)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Truck Make *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('make', value)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Service Category *</Text>
+                <Picker
+                    style={styles.input}
+                    onValueChange={(itemValue, itemIndex) => {
+                        handleInputChange('category', itemValue)
+                    }}
+                >
+                    {categoryList.map((category, index) => (
+                        <Picker.Item key={index} label={category.name} value={category.name} />
+                    ))}
+                </Picker>
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Driver Name *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('driverName', value)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Fuel Type *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('fuel', value)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Engine Power *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('power', value)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Curb Weight *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('curbWeight', value)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>No Of Passengers *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('passengers', value)}
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>About *</Text>
+                <TextInput
+                    style={styles.input}
+                    numberOfLines={5}
+                    multiline={true}
+                    onChangeText={(value) => handleInputChange('make', value)}
+                />
+            </View>
+
+            <TouchableOpacity style={styles.button} >
+                <Text style={{
+                    fontFamily: 'outfit',
+                    textAlign: 'center',
+                    fontSize: 15
+                }}>Submit</Text>
+            </TouchableOpacity>
+        </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    inputContainer: {
+        marginVertical: 5,
+        // padding: 10
+    },
+
+    input: {
+        padding: 10,
+        backgroundColor: Colors.WHITE,
+        borderRadius: 7,
+        fontFamily: 'outfit'
+    },
+
+    lable: {
+        marginVertical: 5,
+        fontFamily: 'outfit'
+    },
+
+    button: {
+        padding: 15,
+        backgroundColor: Colors.PRIMARY,
+        borderRadius: 10,
+        marginVertical: 10,
+        marginBottom: 50
+    }
+})
