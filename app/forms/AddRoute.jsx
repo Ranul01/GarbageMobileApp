@@ -125,6 +125,14 @@ export default function AddRoute() {
                 />
             </View>
 
+            <View style={styles.inputContainer}>
+                <Text style={styles.lable}>Route Manager's Name *</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => handleInputChange('routeManagerName', value)}
+                />
+            </View>
+
             <TouchableOpacity style={styles.button} >
                 <Text style={{
                     fontFamily: 'outfit',

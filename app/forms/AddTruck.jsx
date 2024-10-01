@@ -140,7 +140,7 @@ export default function AddTruck() {
                     style={styles.input}
                     numberOfLines={5}
                     multiline={true}
-                    onChangeText={(value) => handleInputChange('make', value)}
+                    onChangeText={(value) => handleInputChange('about', value)}
                 />
             </View>
 
