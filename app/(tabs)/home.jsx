@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Home/Header'
 import Slider from '../../components/Home/Slider'
@@ -42,20 +42,22 @@ export default function Home() {
     return (
         <View style={{
             padding: 20,
-            marginTop: 20
+            marginTop: 20,
+            flex: 1
         }}>
-            {/* Header */}
-            <Header />
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                {/* Header */}
+                <Header />
 
-            {/* Slider */}
-            <Slider />
+                {/* Slider */}
+                <Slider />
 
-            {/* category selection */}
-            <Category category={(name) => setSelectedCategory(name)} />
+                {/* category selection */}
+                <Category category={(name) => setSelectedCategory(name)} />
 
-            {/*List of Services + Category */}
-            <ServicesByCategory selectedCategory={selectedCategory} />
-
+                {/*List of Services + Category */}
+                <ServicesByCategory selectedCategory={selectedCategory} />
+            </ScrollView>
 
 
             {/* Add new Truck */}

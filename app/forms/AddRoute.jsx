@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, ScrollView, Image, TextInput } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image, TextInput, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from 'expo-router'
+import { useNavigation, useRouter } from 'expo-router'
 import Colors from '../../constants/Colors'
 import { Picker } from '@react-native-picker/picker'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../../config/FirebaseConfig'
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
+import { db, storage } from '../../config/FirebaseConfig'
 import { TouchableOpacity } from 'react-native'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import * as ImagePicker from 'expo-image-picker';
 
 export default function AddRoute() {
 
@@ -16,6 +18,10 @@ export default function AddRoute() {
     const [formdata, setFormData] = useState({
         category: 'Routes',
     })
+
+    const [image, setImage] = useState()
+
+    const router = useRouter()
 
     useEffect(() => {
         navigation.setOptions({
@@ -40,6 +46,56 @@ export default function AddRoute() {
             setCategoryList(categoryList => [...categoryList, doc.data()])
         })
     }
+
+    const onSubmit = () => {
+        if(Object.keys(formdata).length !=9){
+            // ToastAndroid.show('Enter all details',ToastAndroid.BOTTOM)
+            alert('Enter All Details')
+            return
+        }
+        uploadImage()
+    }
+
+    const uploadImage = async() => {
+        const blobImage = await fetch(image).then(r => r.blob());
+        const storageRef = ref(storage, 'garbageRoutes/' + Date.now())
+
+        uploadBytes(storageRef, blobImage).then((snapshot) => {
+            console.log('File uploaded')
+        }).then(response => {
+            getDownloadURL(storageRef).then(async(downloadUrl) => {
+                console.log(downloadUrl)
+                saveFormData(downloadUrl)
+            })
+        })
+
+        router.push('(tabs)/home')
+    }
+
+    const saveFormData = async(imageUrl) => {
+        const docId = Date.now().toString()
+        await setDoc(doc(db, 'Services', docId), {
+            ...formdata,
+            imageUrl: imageUrl,
+            id: docId
+        })
+    }
+
+    const imagePicker = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    }
+
     return (
         <ScrollView style={{
             padding: 20
@@ -49,8 +105,8 @@ export default function AddRoute() {
                 fontSize: 20
             }}>Add New Route</Text>
 
-            <View>
-                <Image
+            <Pressable onPress={imagePicker}>
+                {!image ? <Image
                     source={require('../../assets/images/routes.png')}
                     style={{
                         width: 100,
@@ -60,8 +116,17 @@ export default function AddRoute() {
                         borderColor: Colors.GRAY,
                         backgroundColor: Colors.GRAY
                     }}
-                />
-            </View>
+                /> : 
+                    <Image source={{uri: image}}
+                    style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 15,
+                        borderWidth: 1,
+                        borderColor: Colors.GRAY
+                    }}
+                />}
+            </Pressable>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.lable}>Starting area - Ending area *</Text>
@@ -133,7 +198,7 @@ export default function AddRoute() {
                 />
             </View>
 
-            <TouchableOpacity style={styles.button} >
+            <TouchableOpacity style={styles.button} onPress={onSubmit}>
                 <Text style={{
                     fontFamily: 'outfit',
                     textAlign: 'center',
