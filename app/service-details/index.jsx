@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
-import { useLocalSearchParams, useNavigation } from 'expo-router'
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router'
 import ServiceInfo from '../../components/ServiceDetails/ServiceInfo'
 import ServiceSubInfo from '../../components/ServiceDetails/ServiceSubInfo'
 import AboutService from '../../components/ServiceDetails/AboutService'
@@ -12,6 +12,8 @@ export default function ServiceDetails() {
 
     const service = useLocalSearchParams()
     const navigation = useNavigation()
+
+    const router = useRouter()
 
     useEffect(() => {
         navigation.setOptions({
@@ -51,7 +53,9 @@ export default function ServiceDetails() {
                 }>
                     <TouchableOpacity style={
                         styles.hireBtn
-                    }>
+                    }
+                        onPress={() => router.push('/forms/AddTask')}
+                    >
                         <Text style={{
                             fontFamily: 'outfit-medium',
                             fontSize: 20,

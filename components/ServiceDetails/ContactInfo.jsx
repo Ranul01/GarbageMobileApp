@@ -1,9 +1,13 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import Colors from '../../constants/Colors';
 import Feather from '@expo/vector-icons/Feather';
+import { TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function ContactInfo({ service }) {
+
+    const router = useRouter()
     return (
         <View style={{
             paddingHorizontal: 20,
@@ -46,6 +50,25 @@ export default function ContactInfo({ service }) {
                 </View>
             </View>
             <Feather name="send" size={24} color={Colors.PRIMARY} />
+
+            <TouchableOpacity 
+                style={[styles.updateBtn, { backgroundColor: Colors.SECONDARY }]}
+                onPress={() => router.push(`/forms/UpdateTruck?id=${service.id}`)}>
+                <Text style={styles.buttonText}>Update Truck</Text>
+            </TouchableOpacity>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    updateBtn: {
+        padding: 15,
+        backgroundColor: Colors.PRIMARY,
+        borderRadius: 50,
+    },
+    buttonText: {
+        fontFamily: 'outfit-medium',
+        fontSize: 15,
+        textAlign: 'center',
+    }
+})
