@@ -48,8 +48,9 @@ export default function ServicesByCategory({ selectedCategory }) {
             {serviceList.length > 0 ? (
                 <FlatList
                     data={serviceList}
+                    numColumns={2}
                     style={{ marginTop: 10 }}
-                    horizontal={true}
+                    //horizontal={true}
                     renderItem={({ item }) => <ListItem service={item} />}
                 />
             ) : (

@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, ScrollView, Image, TextInput } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image, TextInput, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from 'expo-router'
+import { useNavigation, useRouter } from 'expo-router'
 import Colors from '../../constants/Colors'
 import { Picker } from '@react-native-picker/picker'
-import { collection, getDocs } from 'firebase/firestore'
-import { db } from '../../config/FirebaseConfig'
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore'
+import { db, storage } from '../../config/FirebaseConfig'
 import { TouchableOpacity } from 'react-native'
+import * as ImagePicker from 'expo-image-picker';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 export default function AddTruck() {
 
@@ -16,6 +18,10 @@ export default function AddTruck() {
     const [formdata, setFormData] = useState({
         category: 'Trucks',
     })
+
+    const [image, setImage] = useState()
+
+    const router = useRouter()
 
     useEffect(() => {
         navigation.setOptions({
@@ -41,6 +47,55 @@ export default function AddTruck() {
         })
     }
 
+    const onSubmit = () => {
+        if(Object.keys(formdata).length !=9){
+            // ToastAndroid.show('Enter all details',ToastAndroid.BOTTOM)
+            alert('Enter All Details')
+            return
+        }
+        uploadImage()
+    }
+
+    const uploadImage = async() => {
+        const blobImage = await fetch(image).then(r => r.blob());
+        const storageRef = ref(storage, 'garbageTrucks/' + Date.now())
+
+        uploadBytes(storageRef, blobImage).then((snapshot) => {
+            console.log('File uploaded')
+        }).then(response => {
+            getDownloadURL(storageRef).then(async(downloadUrl) => {
+                console.log(downloadUrl)
+                saveFormData(downloadUrl)
+            })
+        })
+
+        router.push('(tabs)/home')
+    }
+
+    const saveFormData = async(imageUrl) => {
+        const docId = Date.now().toString()
+        await setDoc(doc(db, 'Services', docId), {
+            ...formdata,
+            imageUrl: imageUrl,
+            id: docId
+        })
+    }
+
+    const imagePicker = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    }
+
     return (
         <ScrollView style={{
             padding: 20
@@ -50,8 +105,8 @@ export default function AddTruck() {
                 fontSize: 20
             }}>Add New Truck</Text>
 
-            <View>
-                <Image
+            <Pressable onPress={imagePicker}>
+                {!image ?<Image
                     source={require('../../assets/images/truck.png')}
                     style={{
                         width: 100,
@@ -61,8 +116,17 @@ export default function AddTruck() {
                         borderColor: Colors.GRAY,
                         backgroundColor: Colors.GRAY
                     }}
-                />
-            </View>
+                /> :
+                    <Image source={{uri: image}}
+                            style={{
+                                width: 100,
+                                height: 100,
+                                borderRadius: 15,
+                                borderWidth: 1,
+                                borderColor: Colors.GRAY
+                            }}
+                        />}
+            </Pressable>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.lable}>Truck Name *</Text>
@@ -144,7 +208,7 @@ export default function AddTruck() {
                 />
             </View>
 
-            <TouchableOpacity style={styles.button} >
+            <TouchableOpacity style={styles.button} onPress={onSubmit}>
                 <Text style={{
                     fontFamily: 'outfit',
                     textAlign: 'center',
