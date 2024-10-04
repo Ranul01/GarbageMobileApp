@@ -8,6 +8,7 @@ import ContactInfo from '../../components/ServiceDetails/ContactInfo'
 import { TouchableOpacity } from 'react-native'
 import Colors from '../../constants/Colors'
 import UpdateButton from '../../components/ServiceDetails/UpdateButton'
+import DeleteButton from '../../components/ServiceDetails/DeleteButton'
 
 export default function ServiceDetails() {
 
@@ -41,8 +42,14 @@ export default function ServiceDetails() {
 
                 {/* owner details */}
                 <ContactInfo service={service} />
+
                 {/* <UpdateButton selectedCategory={service?.category}/> */}
+
                 <UpdateButton service={service}/>
+
+                {/* Delete button */}
+                <DeleteButton service={service}/>
+                
                 <View style={{
                     height: 70
                 }}></View>

@@ -4,5 +4,6 @@ export default {
   WHITE: '#fff',
   SECONDARY: '#f8ed17',
   LIGHT_PRIMARY: '#BDF6BC',
-  BLUE: '#4faaff'
+  BLUE: '#4faaff',
+  DANGER: '#bb2124'
 }
