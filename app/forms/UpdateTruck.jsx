@@ -86,8 +86,6 @@ export default function UpdateTruck() {
                 />
             </View>
 
-            {/* Repeat similar blocks for other fields */}
-
             {/* <View style={styles.inputContainer}>
                 <Text style={styles.lable}>Service Category *</Text>
                 <Picker
