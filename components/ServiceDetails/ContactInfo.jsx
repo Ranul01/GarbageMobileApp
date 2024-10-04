@@ -51,11 +51,11 @@ export default function ContactInfo({ service }) {
             </View>
             <Feather name="send" size={24} color={Colors.PRIMARY} />
 
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
                 style={[styles.updateBtn, { backgroundColor: Colors.SECONDARY }]}
                 onPress={() => router.push(`/forms/UpdateTruck?id=${service.id}`)}>
                 <Text style={styles.buttonText}>Update Truck</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     )
 }
