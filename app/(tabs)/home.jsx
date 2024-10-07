@@ -1,4 +1,4 @@
-import { View, Text, FlatList, ScrollView } from 'react-native'
+import { View, Text, FlatList, ScrollView, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Home/Header'
 import Slider from '../../components/Home/Slider'
@@ -40,50 +40,53 @@ export default function Home() {
     }
 
     return (
-        <View style={{
-            padding: 20,
-            marginTop: 20,
-            flex: 1
-        }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                {/* Header */}
-                <Header />
-
-                {/* Slider */}
-                <Slider />
-
-                {/* category selection */}
-                <Category category={(name) => setSelectedCategory(name)} />
-
-                {/*List of Services + Category */}
-                <ServicesByCategory selectedCategory={selectedCategory} />
-            </ScrollView>
-
-
-            {/* Add new Truck */}
-            <TouchableOpacity style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
+            <View style={{
                 padding: 20,
-                gap: 20,
                 marginTop: 20,
-                backgroundColor: Colors.LIGHT_PRIMARY,
-                borderWidth: 1,
-                borderColor: Colors.LIGHT_PRIMARY,
-                borderRadius: 15,
-                borderStyle: 'dashed'
-            }}
-                onPress={handleButtonPress}
-            >
-                <Ionicons name="add-circle-sharp" size={24} color={Colors.PRIMARY} />
-                <Text style={{
-                    fontFamily: 'outfit',
-                    color: Colors.PRIMARY
-                }}>{renderButtonLabe()}</Text>
-            </TouchableOpacity>
+                flex: 1,
+                backgroundColor: Colors.BACKGROUND
+            }}>
+                <ScrollView>
+                    <View>
+                        {/* Header */}
+                        <Header />
 
-        </View>
+                        {/* Slider */}
+                        <Slider />
+
+                        {/* category selection */}
+                        <Category category={(name) => setSelectedCategory(name)} />
+
+                        {/*List of Services + Category */}
+                        <ServicesByCategory selectedCategory={selectedCategory} />
+                    </View>
+
+
+                    {/* Add new Truck */}
+                    <TouchableOpacity style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: 20,
+                        gap: 20,
+                        marginTop: 20,
+                        backgroundColor: Colors.LIGHT_PRIMARY,
+                        borderWidth: 1,
+                        borderColor: Colors.LIGHT_PRIMARY,
+                        borderRadius: 15,
+                        borderStyle: 'dashed'
+                    }}
+                        onPress={handleButtonPress}
+                    >
+                        <Ionicons name="add-circle-sharp" size={24} color={Colors.BLACK} />
+                        <Text style={{
+                            fontFamily: 'outfit',
+                            color: Colors.BLACK
+                        }}>{renderButtonLabe()}</Text>
+                </TouchableOpacity>
+                </ScrollView>
+
+            </View>
     )
 }

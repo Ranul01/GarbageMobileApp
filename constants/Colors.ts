@@ -3,7 +3,10 @@ export default {
   GRAY: '#8F8e8d',
   WHITE: '#fff',
   SECONDARY: '#f8ed17',
-  LIGHT_PRIMARY: '#BDF6BC',
+  LIGHT_PRIMARY: '#425523',
   BLUE: '#4faaff',
-  DANGER: '#bb2124'
+  DANGER: '#bb2124',
+  BACKGROUND: '#BDD695',
+  BLACK: '#000',
+  DGREEN: '#989C69'
 }

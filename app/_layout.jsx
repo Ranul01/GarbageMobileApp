@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function RootLayout() {
 
@@ -9,10 +10,12 @@ export default function RootLayout() {
     'outfit-bold': require('../assets/fonts/Outfit-Bold.ttf'),
   })
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }}/>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="login/index" options={{ headerShown: false }} />
-    </Stack>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }}/>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="login/index" options={{ headerShown: false }} />
+      </Stack>
+    </GestureHandlerRootView>
   );
 }
