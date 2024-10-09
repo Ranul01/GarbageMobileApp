@@ -40,6 +40,10 @@ export default function Home() {
     }
 
     return (
+        <SafeAreaView style={{
+            flex:1,
+            backgroundColor: Colors.BACKGROUND
+        }}>
             <View style={{
                 padding: 20,
                 marginTop: 20,
@@ -84,9 +88,9 @@ export default function Home() {
                             fontFamily: 'outfit',
                             color: Colors.BLACK
                         }}>{renderButtonLabe()}</Text>
-                </TouchableOpacity>
+                    </TouchableOpacity>
                 </ScrollView>
-
             </View>
+        </SafeAreaView>
     )
 }
